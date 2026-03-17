@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Dependencies
+**/node_modules
+**/vendor
+**/go.mod
+**/go.sum
+
+# Build artifacts
+**/.next
+**/out
+**/dist
+**/bin
+**/sankofa
+
+# Docker
+sankofa-docker/.git
+sankofa-docker/sankofa_data
+
+# OS files
+.DS_Store
+
+# Local Env
+.env
+.env.local
+.env.production

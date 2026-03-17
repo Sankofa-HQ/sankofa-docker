@@ -2,7 +2,15 @@
 FROM node:20-alpine AS dashboard-builder
 RUN apk add --no-cache git
 WORKDIR /app
-RUN git clone https://github.com/Sankofa-HQ/sankofa-dashboard.git dashboard
+# Check if dashboard exists locally in the context
+COPY . /src
+RUN if [ -f "/src/dashboard/package.json" ]; then \
+        echo "Using local dashboard files" && \
+        cp -r /src/dashboard ./dashboard; \
+    else \
+        echo "Cloning dashboard from GitHub" && \
+        git clone https://github.com/Sankofa-HQ/sankofa-dashboard.git dashboard; \
+    fi
 WORKDIR /app/dashboard
 RUN npm install --legacy-peer-deps
 ENV NEXT_PUBLIC_API_URL="http://localhost:8080"
@@ -12,7 +20,15 @@ RUN npm run build
 FROM golang:1.24-alpine AS engine-builder
 RUN apk add --no-cache git
 WORKDIR /app
-RUN git clone https://github.com/Sankofa-HQ/sankofa-server.git server
+# Check if server exists locally in the context
+COPY . /src
+RUN if [ -d "/src/server" ]; then \
+        echo "Using local server files" && \
+        cp -r /src/server ./server; \
+    else \
+        echo "Cloning server from GitHub" && \
+        git clone https://github.com/Sankofa-HQ/sankofa-server.git server; \
+    fi
 WORKDIR /app/server/engine
 RUN go mod download
 RUN go build -o /app/sankofa ./cmd/sankofa
