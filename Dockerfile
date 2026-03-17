@@ -38,7 +38,7 @@ COPY --from=dashboard-builder /app/dashboard/public ./dashboard/public
 COPY server/engine/.env.example .env
 
 # Copy and prepare startup script
-COPY start.sh .
+COPY sankofa-docker/start.sh .
 RUN chmod +x start.sh
 
 # Create uploads directory

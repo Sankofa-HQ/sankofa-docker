@@ -2,8 +2,8 @@ services:
   sankofa:
     image: sankofa/engine:latest
     build:
-      context: ../../
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: sankofa-docker/Dockerfile
     ports:
       - "8080:8080"
       - "3000:3000"
